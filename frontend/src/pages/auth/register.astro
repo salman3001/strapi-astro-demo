@@ -15,8 +15,8 @@ if (user?.value) {
 const result = Astro.getActionResult(actions.auth.login);
 
 if (result && !result?.error) {
-  Astro.cookies.set("user", result?.data?.user, { path: "/" });
-  Astro.cookies.set("token", result?.data?.jwt, { path: "/" });
+  Astro.cookies.set("user", result?.data?.user, {});
+  Astro.cookies.set("token", result?.data?.jwt);
   return Astro.redirect("/");
 }
 
@@ -123,3 +123,5 @@ const fieldErrors = getFieldErrors(result?.error);
 
   <style></style>
 </Layout>
+
+<script></script>

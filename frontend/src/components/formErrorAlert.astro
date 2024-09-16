@@ -1,0 +1,17 @@
+---
+import Alert from "./alert.astro";
+
+interface Props {
+  resultData: any;
+}
+
+const { resultData } = Astro.props;
+---
+
+{
+  resultData?.error?.message && (
+    <div class="p-2">
+      <Alert type="error" title={resultData?.error?.message || ""} />
+    </div>
+  )
+}
