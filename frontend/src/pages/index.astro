@@ -1,13 +1,39 @@
 ---
+import Card from "../components/card.astro";
 import Layout from "../layouts/Layout.astro";
+import qs from "qs";
+import { stripeApi } from "../utils/stripeApi";
+
+const query = qs.stringify({
+  populate: {
+    image: {
+      fields: ["url"],
+    },
+  },
+});
+
+const res = await stripeApi.get("/api/products" + "?" + query);
+console.log(res.data);
 ---
 
 <Layout title="Welcome to Astro.">
-  <main>
-    <h1>
-      Welcome to <span class="text-gradient">to Starpi & Astro demo</span>
-    </h1>
+  <main class="container mx-auto p-5">
+    <h1 class="text-2xl font-bold">Products</h1>
+    <br />
+    <div class="grid grid-cols-4 gap-4">
+      {
+        res?.data &&
+          res.data?.data?.map((p: any) => (
+            <div class="col-span-4 sm:col-span-2 lg:col-span-1">
+              <Card
+                title={p?.attributes?.title}
+                id={p?.id}
+                price={p?.attributes?.price}
+                image={p?.attributes?.image?.data?.attributes?.url}
+              />
+            </div>
+          ))
+      }
+    </div>
   </main>
 </Layout>
-
-<style></style>

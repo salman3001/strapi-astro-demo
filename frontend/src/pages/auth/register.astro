@@ -12,28 +12,29 @@ if (user?.value) {
   return Astro.redirect("/");
 }
 
-const result = Astro.getActionResult(actions.auth.login);
+const result = Astro.getActionResult(actions.auth.register);
 
 if (result && !result?.error) {
-  Astro.cookies.set("user", result?.data?.user, {});
-  Astro.cookies.set("token", result?.data?.jwt);
+  Astro.cookies.set("user", result?.data?.user, { path: "/" });
+  Astro.cookies.set("token", result?.data?.jwt, { path: "/" });
   return Astro.redirect("/");
 }
 
 const fieldErrors = getFieldErrors(result?.error);
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Login">
   <ViewTransitions />
   <section class="bg-gray-50 dark:bg-gray-900">
     <div
       class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
     >
       <Logo />
+      <br />
       <form
         class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0"
-        method="POST"
-        action={actions.auth.login}
+        method="post"
+        action={actions.auth.register}
       >
         {
           result?.error && !(result?.error as any)?.fields && (
@@ -46,82 +47,79 @@ const fieldErrors = getFieldErrors(result?.error);
           <h1
             class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
           >
-            Sign in to your account
+            Sign up with us
           </h1>
-          <form class="space-y-4 md:space-y-6" action="#">
-            <div>
-              <label
-                for="email"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Email or Username</label
-              >
-              <input
-                transition:persist
-                class="input input-bordered w-full"
-                name="identifier"
-              />
-              <!-- <Input name="Password"  /> -->
-              <label
-                for="email"
-                class="block mb-2 text-xs font-medium text-red-500"
-                >{fieldErrors?.identifier || ""}</label
-              >
-            </div>
-            <div>
-              <label
-                for="password"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Password</label
-              >
-              <input
-                transition:persist
-                class="input input-bordered w-full"
-                name="password"
-                type="password"
-              />
-              <label
-                for="email"
-                class="block mb-2 text-xs font-medium text-red-500"
-                >{fieldErrors?.password || ""}</label
-              >
-              <div class="flex items-center justify-between pt-1">
-                <div class="flex items-start">
-                  <div class="form-control">
-                    <label class="cursor-pointer label">
-                      <input
-                        transition:persist
-                        type="checkbox"
-                        class="checkbox checkbox-sm"
-                      />
-                      <span class="label-text">Remember me</span>
-                    </label>
-                  </div>
-                </div>
-                <a href="/auth/forgot-password" class="link link-hover text-sm"
-                  >Forgot password?</a
-                >
-              </div>
-              <div class="py-2">
-                <button class="btn btn-primary w-full" type="submit">
-                  Signin</button
-                >
-              </div>
 
-              <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet? <a
-                  href="#"
-                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >Sign up</a
-                >
-              </p>
+          <div>
+            <label
+              for="username"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Username</label
+            >
+            <input
+              transition:persist
+              class="input input-bordered w-full"
+              name="username"
+            />
+            <!-- <Input name="Password"  /> -->
+            <label
+              for="username"
+              class="block mb-2 text-xs font-medium text-red-500"
+              >{fieldErrors?.username || ""}</label
+            >
+          </div>
+          <div>
+            <label
+              for="email"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Email</label
+            >
+            <input
+              type="email"
+              transition:persist
+              class="input input-bordered w-full"
+              name="email"
+            />
+            <label
+              for="email"
+              class="block mb-2 text-xs font-medium text-red-500"
+              >{fieldErrors?.email || ""}</label
+            >
+          </div>
+          <div>
+            <label
+              for="password"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Password</label
+            >
+            <input
+              transition:persist
+              class="input input-bordered w-full"
+              name="password"
+              type="password"
+            />
+            <label
+              for="password"
+              class="block mb-2 text-xs font-medium text-red-500"
+              >{fieldErrors?.password || ""}</label
+            >
+
+            <div class="py-2">
+              <button class="btn btn-primary w-full" type="submit">
+                Signup</button
+              >
             </div>
-          </form>
+
+            <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+              Already have an account? <a
+                href="/auth/login"
+                class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >Signin</a
+              >
+            </p>
+          </div>
         </div>
       </form>
     </div>
   </section>
-
-  <style></style>
 </Layout>
-
-<script></script>

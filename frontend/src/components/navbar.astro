@@ -1,14 +1,6 @@
 ---
-import { actions } from "astro:actions";
 import Logo from "./logo.astro";
 const user = Astro.cookies.get("user");
-
-const result = Astro.getActionResult(actions.auth.logout);
-console.log(result);
-
-if (result && !result?.error) {
-  return Astro.redirect("/auth/login");
-}
 ---
 
 <div class="navbar bg-base-100 shadow-sm">
@@ -51,7 +43,7 @@ if (result && !result?.error) {
     </div>
     {
       user?.value ? (
-        <form action={actions.auth.logout} method="post">
+        <a href="/auth/logout">
           <button
             type="submit"
             class="btn btn-primary ml-2 btn-sm"
@@ -59,7 +51,7 @@ if (result && !result?.error) {
           >
             Logout
           </button>
-        </form>
+        </a>
       ) : (
         <a href="/auth/login">
           <button class="btn btn-primary ml-2 btn-sm">Login</button>
@@ -68,13 +60,3 @@ if (result && !result?.error) {
     }
   </div>
 </div>
-<script>
-  // import { actions } from "astro:actions";
-
-  // const logoutBtn = document.getElementById("logout-btn");
-  // if (logoutBtn) {
-  //   logoutBtn.addEventListener("click", async () => {
-  //     await actions.auth.logout();
-  //   });
-  // }
-</script>

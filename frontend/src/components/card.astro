@@ -1,0 +1,37 @@
+---
+import { config } from "../utils/config";
+
+interface Props {
+  id: number;
+  title: string;
+  price: string;
+  image: string;
+}
+
+const { title, price, image, id } = Astro.props;
+---
+
+<a href={`/product/${id}`}>
+  <div class="card bg-base-100 max-w-96 max-h-96 shadow-xl">
+    <figure>
+      <img src={config.strapiUrl + image} alt="Shoes" />
+    </figure>
+    <div class="card-body">
+      <h2 class="card-title">{price} {config.currency}</h2>
+      <p class="line-clamp-3">{title}</p>
+      <div class="card-actions justify-end">
+        <button class="btn btn-primary btn-sm" data-cardBtn>Buy Now</button>
+      </div>
+    </div>
+  </div>
+</a>
+
+<script>
+  const cardBtn = document.querySelectorAll("[data-cardBtn]");
+  cardBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+    });
+  });
+</script>

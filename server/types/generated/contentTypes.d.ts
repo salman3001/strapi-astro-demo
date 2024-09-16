@@ -440,15 +440,16 @@ export interface ApiProductProduct extends Schema.CollectionType {
     singularName: 'product';
     pluralName: 'products';
     displayName: 'Product';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String & Attribute.Required;
-    slug: Attribute.UID<'api::product.product', 'name'> & Attribute.Required;
-    price: Attribute.Decimal & Attribute.Required;
-    desc: Attribute.Text;
+    slug: Attribute.UID<'api::product.product', 'title'> & Attribute.Required;
+    price: Attribute.String;
+    title: Attribute.String & Attribute.Required;
+    image: Attribute.Media<'images'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

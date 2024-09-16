@@ -1,0 +1,12 @@
+---
+import { stripeApi } from "../../utils/stripeApi";
+import Layout from "../../layouts/Layout.astro";
+
+const { id } = Astro.params;
+
+const res = await stripeApi.get("/api/products/" + id);
+---
+
+<Layout title="Welcome to Astro.">
+  {id}
+</Layout>

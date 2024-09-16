@@ -25,13 +25,26 @@ export const auth = {
       }
     },
   }),
-  logout: defineAction({
+  register: defineAction({
     accept: "form",
-    handler: async (_input, _c) => {
-      _c.cookies.set("user", "", { path: "/" });
-      _c.cookies.set("token", "", { path: "/" });
+    input: z.object({
+      username: z.string().min(1),
+      email: z.string().email(),
+      password: z.string().min(8),
+    }),
+    handler: async (input, _c) => {
+      // _c.cookies.get('')
+      try {
+        const res = await stripeApi.post("api/auth/local/register", input);
+        return res.data;
+      } catch (err: any) {
+        const error = err as AxiosError<any>;
 
-      return {};
+        if (error.response) {
+          throw new Error(error.response?.data.error?.message);
+        }
+        throw error;
+      }
     },
   }),
 };
