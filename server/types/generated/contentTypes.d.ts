@@ -374,14 +374,14 @@ export interface ApiCartCart extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    users_permissions_user: Attribute.Relation<
+    user: Attribute.Relation<
       'api::cart.cart',
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    cart_item: Attribute.Relation<
+    cart_items: Attribute.Relation<
       'api::cart.cart',
-      'manyToOne',
+      'oneToMany',
       'api::cart-item.cart-item'
     >;
     createdAt: Attribute.DateTime;
@@ -400,6 +400,7 @@ export interface ApiCartItemCartItem extends Schema.CollectionType {
     singularName: 'cart-item';
     pluralName: 'cart-items';
     displayName: 'Cart Item';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -411,11 +412,6 @@ export interface ApiCartItemCartItem extends Schema.CollectionType {
       'api::product.product'
     >;
     qty: Attribute.Integer;
-    carts: Attribute.Relation<
-      'api::cart-item.cart-item',
-      'oneToMany',
-      'api::cart.cart'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

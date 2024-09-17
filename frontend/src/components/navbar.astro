@@ -8,7 +8,10 @@ const user = Astro.cookies.get("user");
     <Logo />
   </div>
 
-  <a class="btn btn-circle btn-sm" href="/cart">
+
+  {
+    user?.value ? (
+    <a class="btn btn-circle btn-sm" href="/cart">
     <div class="indicator">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -27,8 +30,6 @@ const user = Astro.cookies.get("user");
       <span class="badge badge-error badge-sm indicator-item">8</span>
     </div>
   </a>
-  {
-    user?.value ? (
       <a href="/auth/logout">
         <button
           type="submit"

@@ -21,7 +21,7 @@ const res = await stripeApi.get("/api/products/" + id + "?" + query);
   <main class="container mx-auto p-5">
     <h1 class="text-2xl font-bold">Products Details</h1>
     <br />
-    <div class="flex justify-between">
+    <div class="flex justify-between flex-col sm:flex-row gap-4">
       <div>
         <h2 class="text-xl">{res?.data?.data?.attributes?.title}</h2>
         <br />
@@ -35,14 +35,14 @@ const res = await stripeApi.get("/api/products/" + id + "?" + query);
       </div>
     </div>
     <br />
-    <figure>
+    <figure class="flex justify-center items-center max-w-96 shadow-lg">
       <img
         src={config.strapiUrl +
           res?.data?.data?.attributes?.image?.data?.attributes?.url}
         alt="Shoes"
+        class="w-full h-full"
       />
     </figure>
-    <img />{res?.data?.data?.attributes?.price}
-    {config.currency}
+    <img />
   </main>
 </Layout>

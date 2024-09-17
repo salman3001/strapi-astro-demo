@@ -1,8 +1,11 @@
 ---
+import { actions } from "astro:actions";
 import { config } from "../utils/config";
 
+const user = Astro.cookies.get("user");
+
 interface Props {
-  id: number;
+  id: string;
   title: string;
   price: string;
   image: string;
@@ -11,27 +14,55 @@ interface Props {
 const { title, price, image, id } = Astro.props;
 ---
 
-<a href={`/product/${id}`}>
-  <div class="card bg-base-100 max-w-96 max-h-96 shadow-xl">
-    <figure>
-      <img src={config.strapiUrl + image} alt="Shoes" />
-    </figure>
-    <div class="card-body">
-      <h2 class="card-title">{price} {config.currency}</h2>
-      <p class="line-clamp-3">{title}</p>
-      <div class="card-actions justify-end">
-        <button class="btn btn-primary btn-sm" data-cardBtn>Add to cart</button>
-      </div>
+<div class="card bg-base-100 max-w-96 max-h-96 shadow-xl">
+  <figure>
+    <img src={config.strapiUrl + image} alt="Shoes" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">{price} {config.currency}</h2>
+    <p class="line-clamp-3">{title}</p>
+    <div class="card-actions justify-end">
+      <a href={`/product/${id}`}>
+        <button class="btn btn-primary btn-sm btn-outline" data-cardBtn
+          >view</button
+        >
+      </a>
+      {
+        user?.value ? (
+          <form
+            action={actions.cart.addToCart}
+            id="addToCartForm"
+            method="post"
+          >
+            <input type="hidden" value={id} name="productId" />
+            <button type="submit" class="btn btn-primary btn-sm" data-cardBtn>
+              Add to cart
+            </button>
+          </form>
+        ) : (
+          <a href={`/auth/login`}>
+            <button type="submit" class="btn btn-primary btn-sm" data-cardBtn>
+              Add to cart
+            </button>
+          </a>
+        )
+      }
     </div>
   </div>
-</a>
+</div>
 
 <script>
-  const cardBtn = document.querySelectorAll("[data-cardBtn]");
-  cardBtn.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-    });
-  });
+  // const cardBtn = document.querySelectorAll("[data-cardBtn]");
+  // cardBtn.forEach((btn) => {
+  //   btn.addEventListener("click", (e) => {
+  //     e.stopPropagation();
+  //     e.preventDefault();
+  //     const formElelment = document.getElementById(
+  //       "addToCartForm",
+  //     ) as HTMLFormElement;
+  //     if (formElelment) {
+  //       formElelment.submit();
+  //     }
+  //   });
+  // });
 </script>

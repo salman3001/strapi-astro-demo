@@ -13,7 +13,7 @@ export const auth = {
     handler: async (input, _c) => {
       // _c.cookies.get('')
       try {
-        const res = await stripeApi.post("api/auth/local", input);
+        const res = await stripeApi.post("/api/auth/local", input);
         return res.data;
       } catch (err: any) {
         const error = err as AxiosError<any>;
@@ -35,7 +35,7 @@ export const auth = {
     handler: async (input, _c) => {
       // _c.cookies.get('')
       try {
-        const res = await stripeApi.post("api/auth/local/register", input);
+        const res = await stripeApi.post("/api/auth/local/register", input);
         return res.data;
       } catch (err: any) {
         const error = err as AxiosError<any>;
