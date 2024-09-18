@@ -7,7 +7,6 @@ import { getFieldErrors } from "../../utils/getFieldErrors";
 import Alert from "../../components/alert.astro";
 
 const user = Astro.cookies.get("user");
-console.log(user);
 
 if (user?.value) {
   return Astro.redirect("/");
@@ -27,9 +26,7 @@ const fieldErrors = getFieldErrors(result?.error);
 <Layout title="Login">
   <ViewTransitions />
   <section class="bg-gray-50 dark:bg-gray-900">
-    <div
-      class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
-    >
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
       <Logo />
       <br />
       <form
