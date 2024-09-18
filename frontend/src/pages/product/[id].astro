@@ -3,6 +3,7 @@ import { stripeApi } from "../../utils/stripeApi";
 import Layout from "../../layouts/Layout.astro";
 import { config } from "../../utils/config";
 import qs from "qs";
+import AddToCartBtn from "../../components/vue/components/AddToCartBtn.vue";
 
 const { id } = Astro.params;
 
@@ -14,7 +15,11 @@ const query = qs.stringify({
   },
 });
 
-const res = await stripeApi.get("/api/products/" + id + "?" + query);
+const res = await stripeApi
+  .get("/api/products/" + id + "?" + query)
+  .catch((err) => {
+    console.log(err?.message);
+  });
 ---
 
 <Layout title="Product details">
@@ -22,16 +27,20 @@ const res = await stripeApi.get("/api/products/" + id + "?" + query);
     <h1 class="text-2xl font-bold">Products Details</h1>
     <br />
     <div class="flex justify-between flex-col sm:flex-row gap-4">
+      {
+        res?.data?.data && (
+          <div>
+            <h2 class="text-xl">{res?.data?.data?.attributes?.title}</h2>
+            <br />
+            <div class="font-semibold">
+              {res?.data?.data?.attributes?.price}
+              {config.currency}
+            </div>
+          </div>
+        )
+      }
       <div>
-        <h2 class="text-xl">{res?.data?.data?.attributes?.title}</h2>
-        <br />
-        <div class="font-semibold">
-          {res?.data?.data?.attributes?.price}
-          {config.currency}
-        </div>
-      </div>
-      <div>
-        <button class="btn btn-primary btn-sm" data-cardBtn>Add to cart</button>
+        <AddToCartBtn id={res?.data?.data?.id} client:visible />
       </div>
     </div>
     <br />

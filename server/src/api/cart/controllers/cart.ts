@@ -9,7 +9,6 @@ export default factories.createCoreController("api::cart.cart", ({}) => ({
     try {
       const { productId } = ctx.request.body;
       const user = ctx?.state?.user;
-      console.log(productId);
 
       if (!productId) {
         throw new Error("Product id is required");
@@ -76,7 +75,6 @@ export default factories.createCoreController("api::cart.cart", ({}) => ({
         }
       }
 
-      console.log(existingCartItem);
       ctx.body = "ok";
     } catch (error) {
       console.error("Error adding item to cart:", error);

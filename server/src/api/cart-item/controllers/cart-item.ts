@@ -50,5 +50,43 @@ export default factories.createCoreController(
         ctx.body = error;
       }
     },
+    async getCount(ctx) {
+      let count = 0;
+      try {
+        const user = ctx?.state?.user;
+
+        if (!user) {
+          throw new Error("Login Required");
+        }
+
+        const cart = await strapi.db.query("api::cart.cart").findOne({
+          where: {
+            user: user?.id,
+          },
+          populate: {
+            cart_items: {
+              populate: {
+                product: {
+                  fields: ["id"],
+                },
+              },
+            },
+          },
+        });
+
+        if (cart?.cart_items) {
+          count = cart?.cart_items?.length || 0;
+        }
+
+        ctx.body = {
+          data: {
+            count,
+          },
+        };
+      } catch (error) {
+        console.error("Error getting cart count", error);
+        return ctx.badRequest("Error getting cart count", { error });
+      }
+    },
   })
 );

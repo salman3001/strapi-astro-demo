@@ -15,6 +15,11 @@ const routes: CustomRoutes = [
     path: "/cart-items/decrement/:id",
     handler: "api::cart-item.cart-item.decrement",
   },
+  {
+    method: "GET",
+    path: "/cart-items/get-count",
+    handler: "api::cart-item.cart-item.getCount",
+  },
 ];
 
 export default { routes };

@@ -7,6 +7,7 @@ import { getFieldErrors } from "../../utils/getFieldErrors";
 import Alert from "../../components/alert.astro";
 
 const user = Astro.cookies.get("user");
+console.log(user);
 
 if (user?.value) {
   return Astro.redirect("/");

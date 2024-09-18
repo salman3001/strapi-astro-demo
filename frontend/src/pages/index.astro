@@ -12,7 +12,9 @@ const query = qs.stringify({
   },
 });
 
-const res = await stripeApi.get("/api/products" + "?" + query);
+const res = await stripeApi.get("/api/products" + "?" + query).catch((err) => {
+  console.log(err?.message);
+});
 ---
 
 <Layout title="Welcome to Astro.">
