@@ -39,4 +39,4 @@ npm run develop
 
 ## Notes
 
-pleae note that i have added the minimum functionality as per task assigned to me. UI is very basic. Many features like pagination, searching , sorting filtering was not added. Please let me know if you want to see more features.
+pleae note that i have added the minimum functionality as per task assigned to me. UI is very basic. Many features like pagination, searching , sorting filtering were not added. Please let me know if you want to see more features.
